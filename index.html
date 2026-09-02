@@ -3,662 +3,1046 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thejas KM — Robotics &amp; Embedded Systems</title>
+<title>THEJAS KM — Robotics &amp; Embedded Systems</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #0B1220;
-    --panel: #10182B;
-    --panel-2: #0D1526;
-    --grid: #1E2A45;
-    --line: #2A3A5C;
-    --teal: #5EEAD4;
-    --amber: #F5A623;
-    --text: #E8EDF5;
-    --muted: #8B98B0;
-    --mono: 'JetBrains Mono', ui-monospace, monospace;
-    --sans: 'Inter', system-ui, sans-serif;
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --bg: #09090B;
+    --card: #121215;
+    --card-hover: #18181C;
+    --border: #27272A;
+    --border-light: #3F3F46;
+    --text-primary: #FAFAFA;
+    --text-secondary: #A1A1AA;
+    --text-tertiary: #71717A;
+    --font-display: 'Space Grotesk', -apple-system, sans-serif;
+    --font-mono: 'Space Mono', monospace;
   }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:
-      linear-gradient(var(--bg), var(--bg));
-    background-color: var(--bg);
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size: 32px 32px;
-    color: var(--text);
-    font-family: var(--sans);
-    line-height: 1.6;
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    line-height: 1.5;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: inherit; }
-  ::selection{ background: var(--teal); color: #06231F; }
+  ::selection { background: var(--white); color: var(--black); }
 
-  .wrap{ max-width: 1080px; margin: 0 auto; padding: 0 24px; }
-
-  /* ---------- Top nav ---------- */
-  header.nav{
-    position: sticky; top:0; z-index: 50;
-    background: rgba(11,18,32,0.85);
-    backdrop-filter: blur(6px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav-inner{
-    display:flex; align-items:center; justify-content:space-between;
-    padding: 14px 24px; max-width:1080px; margin:0 auto;
-  }
-  .nav-mark{
-    font-family: var(--mono); font-weight:700; letter-spacing:0.04em;
-    font-size: 14px; color: var(--teal);
-    display:flex; align-items:center; gap:8px;
-  }
-  .nav-mark::before{
-    content:''; width:8px; height:8px; background: var(--teal);
-    box-shadow: 0 0 8px var(--teal);
-    display:inline-block;
-  }
-  .nav-links{ display:flex; gap: 28px; font-family: var(--mono); font-size: 12px; }
-  .nav-links a{ text-decoration:none; color: var(--muted); letter-spacing:0.03em; transition: color .2s ease; }
-  .nav-links a:hover, .nav-links a:focus-visible{ color: var(--teal); }
-  .nav-links span{ color: var(--line); margin-right:4px; }
-
-  /* ---------- Hero / Title block ---------- */
-  .hero{ padding: 72px 0 40px; position:relative; }
-  .status-badge{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family: var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase;
-    color: var(--teal); background: rgba(94,234,212,0.08);
-    border: 1px solid var(--teal); padding: 6px 12px;
-    margin-bottom: 20px;
-  }
-  .status-dot{
-    width:7px; height:7px; border-radius:50%; background: var(--teal);
-    box-shadow: 0 0 8px var(--teal);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .status-dot{ animation:none; }
-  }
-  .sheet-label{
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
-    color: var(--muted); text-transform: uppercase; margin-bottom: 18px;
-    display:flex; align-items:center; gap:10px;
-  }
-  .sheet-label .dash{ height:1px; width:40px; background: var(--line); display:inline-block; }
-
-  h1.title{
-    font-family: var(--mono); font-weight:800; letter-spacing:-0.01em;
-    font-size: clamp(2.4rem, 6vw, 4.4rem);
-    line-height: 1.02;
-    color: var(--text);
-  }
-  h1.title .accent{ color: var(--teal); }
-  .subtitle{
-    margin-top: 18px; max-width: 620px;
-    font-size: 17px; color: var(--muted);
+  .frame {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
-  .trace-wrap{ margin: 34px 0 8px; }
-  svg.trace{ width:100%; height:auto; display:block; overflow:visible; }
-  .trace-path{
-    stroke: var(--teal); stroke-width:2; fill:none;
-    stroke-dasharray: 6 6;
-    animation: dash 22s linear infinite;
+  .border-b { border-bottom: 1px solid var(--border); }
+  .border-t { border-top: 1px solid var(--border); }
+  .border-r { border-right: 1px solid var(--border); }
+  .font-mono { font-family: var(--font-mono); }
+
+  /* Telemetry Bar */
+  .telemetry-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    background: var(--black);
+    color: var(--text-secondary);
   }
-  .trace-node{ fill: var(--panel); stroke: var(--teal); stroke-width:2; }
-  .trace-node2{ fill: var(--amber); }
-  @keyframes dash{ to{ stroke-dashoffset: -600; } }
-  @media (prefers-reduced-motion: reduce){
-    .trace-path{ animation: none; }
+  .telemetry-item {
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--white);
+    border-radius: 50%;
+    animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+  /* Navigation */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9, 9, 11, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 56px;
+  }
+  .brand-slot {
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    min-width: 320px;
   }
 
-  /* ---------- Rover intro ---------- */
-  #rover{ opacity: 0; }
-  #rover.rover-on{ opacity: 1; }
-  #rover .wheel{
-    transform-origin: center;
-    transform-box: fill-box;
-    animation: spin .35s linear infinite;
+  /* Spec Index Badge (Visible at Top) */
+  .brand-spec {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  #rover.rover-arrived .wheel{ animation-play-state: paused; }
-  #rover.rover-arrived{
-    animation: settle .5s ease-out;
+  .spec-box {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    background: var(--white);
+    padding: 2px 7px;
+    letter-spacing: 0.08em;
   }
-  @keyframes spin{ to{ transform: rotate(360deg); } }
-  @keyframes settle{
-    0%{ transform: translateY(0) scale(1); }
-    40%{ transform: translateY(-3px) scale(1.03); }
-    100%{ transform: translateY(0) scale(1); }
-  }
-  @media (prefers-reduced-motion: reduce){
-    #rover .wheel{ animation: none; }
-    #rover.rover-arrived{ animation: none; }
+  .spec-text {
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    letter-spacing: 0.06em;
   }
 
-  /* Hero copy waits for the rover to arrive before it reveals */
-  .hero-content{
+  /* Scrolled-in Name */
+  .brand-name {
+    position: absolute;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    transform: translateY(24px);
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);
-  }
-  .hero-content.is-visible{ opacity: 1; transform: translateY(0); }
-  @media (prefers-reduced-motion: reduce){
-    .hero-content{ transition: none; }
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Title block: like an engineering drawing stamp */
-  .title-block{
-    margin-top: 40px;
-    border: 1px solid var(--line);
-    background: var(--panel);
-    display:grid;
+  /* Toggle on Scroll */
+  .brand-slot.scrolled .brand-spec {
+    transform: translateY(-24px);
+    opacity: 0;
+  }
+  .brand-slot.scrolled .brand-name {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-menu {
+    display: flex;
+  }
+  .nav-menu a {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 11.5px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-left: 1px solid var(--border);
+    transition: all 0.2s ease;
+  }
+  .nav-menu a:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  /* Hero Section */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    align-items: stretch;
+  }
+  .hero-main {
+    padding: 48px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-kicker {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-tertiary);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .hero-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .hero-name {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-tagline {
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .hero-tagline .highlight {
+    color: var(--white);
+  }
+  .hero-lead {
+    margin-top: 18px;
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+  .hero-meta-panel {
+    background: var(--card);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100%;
+  }
+  .meta-cell {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .meta-cell:nth-child(2n) { border-right: none; }
+  .meta-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    margin-bottom: 4px;
+  }
+  .meta-value {
+    font-size: 12.5px;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+  .meta-value a { text-decoration: none; color: inherit; }
+  .meta-value a:hover { text-decoration: underline; }
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+  }
+  .btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    text-decoration: none;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.2s ease;
+  }
+  .btn-action.primary { background: var(--white); color: var(--black); }
+  .btn-action.primary:hover { background: var(--text-secondary); }
+  .btn-action.secondary { background: transparent; color: var(--white); }
+  .btn-action.secondary:hover { background: var(--card-hover); }
+
+  /* Section Labels */
+  .section-label-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: var(--black);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .section-label-bar .num { color: var(--text-tertiary); }
+
+  /* About Grid */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+  }
+  .about-copy {
+    padding: 36px 44px;
+  }
+  .about-copy p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.65;
+  }
+  .about-copy p + p { margin-top: 14px; }
+  .stat-panel {
+    background: var(--card);
+    padding: 24px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 12.5px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .k { color: var(--text-tertiary); }
+  .stat-row .v { color: var(--text-primary); }
+
+  /* Projects Section */
+  .project-item {
+    padding: 32px 44px;
+    background: var(--bg);
+    display: grid;
+    grid-template-columns: 8fr 4fr;
+    gap: 28px;
+    transition: background 0.2s ease;
+  }
+  .project-item:hover { background: var(--card); }
+  .project-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .badge-capstone {
+    background: var(--white);
+    color: var(--black);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 6px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .badge-status {
+    font-size: 11px;
+    color: var(--text-tertiary);
+  }
+  .project-heading {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+  .project-summary {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 680px;
+  }
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 18px;
+  }
+  .tag-mono {
+    font-size: 11px;
+    color: var(--text-secondary);
+    padding: 3px 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .project-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--text-primary);
+    text-decoration: none;
+    border: 1px solid var(--border-light);
+    padding: 8px 14px;
+    transition: all 0.2s ease;
+  }
+  .repo-link:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  /* Two-column Subsystem Grid */
+  .split-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Bill of Materials / Skills Table */
+  .bom-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .bom-table th {
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-tertiary);
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+  }
+  .bom-table td {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .bom-ref { color: var(--text-tertiary); width: 44px; }
+  .bom-qty { color: var(--text-primary); width: 44px; }
+  .bom-cat { font-weight: 700; color: var(--text-primary); width: 130px; }
+  .bom-desc { color: var(--text-secondary); line-height: 1.5; }
+
+  /* Education List */
+  .edu-cell {
+    padding: 24px 36px;
+    border-bottom: 1px solid var(--border);
+  }
+  .edu-cell:last-child { border-bottom: none; }
+  .edu-period {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-bottom: 4px;
+  }
+  .edu-school {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .edu-degree {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+  .edu-grade {
+    font-size: 11.5px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+  }
+  .edu-activity {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    line-height: 1.55;
+  }
+
+  /* Language Matrix */
+  .lang-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .lang-row {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    transition: background 0.2s ease;
+  }
+  .lang-row:hover { background: var(--card); }
+  .lang-row:last-child { border-bottom: none; }
+  .lang-name { font-weight: 600; color: var(--text-primary); }
+  .lang-prof { font-size: 11px; color: var(--text-tertiary); letter-spacing: 0.04em; }
+
+  /* Credentials / Training Rows */
+  .cert-row {
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease;
+  }
+  .cert-row:hover { background: var(--card); }
+  .cert-meta .title {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .cert-meta .issuer {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 3px;
+  }
+  .cert-verify {
+    font-size: 11px;
+    text-decoration: none;
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+  .cert-verify:hover {
+    background: var(--white);
+    color: var(--black);
+  }
+
+  /* Interests / Hobbies */
+  .hobby-container {
+    padding: 24px 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Contact Matrix */
+  .footer-matrix {
+    display: grid;
     grid-template-columns: repeat(4, 1fr);
+    background: var(--card);
   }
-  .tb-cell{
-    padding: 14px 16px;
-    border-right: 1px solid var(--line);
-    border-top: 1px solid var(--line);
+  .footer-slot {
+    padding: 28px 24px;
+    border-right: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s ease;
   }
-  .tb-cell:nth-child(4n){ border-right:none; }
-  .tb-label{ font-family: var(--mono); font-size:10px; letter-spacing:0.1em; color: var(--muted); text-transform:uppercase; }
-  .tb-value{ font-family: var(--mono); font-size:13px; color: var(--text); margin-top:6px; word-break:break-word; }
-  .tb-value a{ text-decoration:none; border-bottom:1px dotted var(--line); }
-  .tb-value a:hover{ color: var(--teal); border-color: var(--teal); }
-
-  @media (max-width: 640px){
-    .title-block{ grid-template-columns: repeat(2, 1fr); }
-    .tb-cell:nth-child(4n){ border-right:1px solid var(--line); }
-    .tb-cell:nth-child(2n){ border-right:none; }
+  .footer-slot:last-child { border-right: none; }
+  .footer-slot:hover { background: var(--black); }
+  .footer-slot .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
   }
-
-  /* ---------- Section shell ---------- */
-  section{ padding: 76px 0; border-top: 1px solid var(--grid); }
-  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom: 36px; }
-  .sec-num{ font-family: var(--mono); font-size:12px; color: var(--teal); }
-  .sec-title{ font-family: var(--mono); font-weight:700; font-size: 22px; letter-spacing: -0.01em; }
-  .sec-rule{ flex:1; height:1px; background: var(--grid); }
-
-  /* ---------- About ---------- */
-  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 48px; }
-  .about-copy p{ color: var(--text); font-size:16px; max-width: 620px; }
-  .about-copy p + p{ margin-top: 14px; }
-  .stat-panel{
-    border:1px solid var(--line); background: var(--panel); padding: 20px;
-  }
-  .stat-row{ display:flex; justify-content:space-between; padding: 10px 0; border-bottom: 1px dashed var(--grid); font-family: var(--mono); font-size:13px; }
-  .stat-row:last-child{ border-bottom:none; }
-  .stat-row .k{ color: var(--muted); }
-  .stat-row .v{ color: var(--text); }
-  @media (max-width: 780px){ .about-grid{ grid-template-columns: 1fr; } }
-
-  /* ---------- BOM (skills) ---------- */
-  .bom-table{ width:100%; border-collapse: collapse; font-family: var(--mono); font-size: 13px; }
-  .bom-table thead th{
-    text-align:left; font-weight:600; color: var(--muted); text-transform:uppercase;
-    letter-spacing:0.06em; font-size:11px; padding: 10px 12px; border-bottom: 1px solid var(--line);
-  }
-  .bom-table td{ padding: 12px; border-bottom: 1px solid var(--grid); vertical-align: top; }
-  .bom-table tr:hover td{ background: rgba(94,234,212,0.03); }
-  .bom-ref{ color: var(--teal); white-space:nowrap; }
-  .bom-qty{ color: var(--amber); white-space:nowrap; }
-  .bom-desc{ color: var(--text); }
-  .bom-table .scroll-x{ overflow-x:auto; }
-
-  /* ---------- Projects ---------- */
-  .proj-list{ display:flex; flex-direction:column; gap: 0; }
-  .proj{
-    border: 1px solid var(--line); background: var(--panel);
-    padding: 26px 26px; margin-bottom: 18px;
-    position:relative;
-  }
-  .proj-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap; }
-  .proj-name{ font-family: var(--mono); font-weight:700; font-size:17px; color: var(--text); }
-  .proj-tag{
-    font-family: var(--mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase;
-    color: var(--bg); background: var(--teal); padding: 3px 8px; white-space:nowrap;
-  }
-  .proj-desc{ margin-top:12px; color: var(--muted); font-size:14.5px; max-width: 720px; }
-  .proj-stack{ margin-top:16px; display:flex; flex-wrap:wrap; gap:8px; }
-  .chip{
-    font-family: var(--mono); font-size:11px; color: var(--teal);
-    border: 1px solid var(--line); padding: 4px 9px;
-  }
-  .proj-link{
-    margin-top:16px; display:inline-flex; align-items:center; gap:6px;
-    font-family: var(--mono); font-size:12px; color: var(--amber); text-decoration:none;
-    border-bottom: 1px solid transparent;
-  }
-  .proj-link:hover, .proj-link:focus-visible{ border-color: var(--amber); }
-
-  .proj-status{
-    display:inline-flex; align-items:center; gap:6px;
-    font-family: var(--mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
-    color: var(--amber);
-  }
-  .proj-status-dot{
-    width:6px; height:6px; border-radius:50%; background: var(--amber);
-    box-shadow: 0 0 6px var(--amber);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .proj-status-dot{ animation:none; }
+  .footer-slot .val {
+    font-size: 13px;
+    color: var(--text-primary);
+    word-break: break-all;
   }
 
-  /* ---------- Training log ---------- */
-  .log-table{ width:100%; border-collapse:collapse; font-size:14px; }
-  .log-table tr{ border-bottom:1px solid var(--grid); }
-  .log-table td{ padding: 12px 10px; }
-  .log-idx{ font-family: var(--mono); color: var(--muted); width:44px; }
-
-  /* ---------- Education ---------- */
-  .edu-list{ display:flex; flex-direction:column; gap: 18px; }
-  .edu-item{
-    border: 1px solid var(--line); background: var(--panel);
-    padding: 22px 24px; transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
-  }
-  .edu-item:hover{ transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 12px 28px -18px rgba(94,234,212,0.35); }
-  .edu-head{ display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; }
-  .edu-school{ font-family: var(--mono); font-weight:700; font-size:16px; color: var(--text); }
-  .edu-meta{ font-family: var(--mono); font-size:12px; color: var(--muted); white-space:nowrap; }
-  .edu-degree{ margin-top:8px; color: var(--muted); font-size:14.5px; }
-  .edu-grade{ margin-top:8px; font-family: var(--mono); font-size:12px; color: var(--amber); }
-  .edu-activity{ margin-top:8px; color: var(--muted); font-size:14px; }
-
-  /* ---------- Hobbies ---------- */
-  .hobby-list{ display:flex; flex-wrap:wrap; gap:12px; }
-  .hobby-chip{ font-size:13px; padding:8px 14px; }
-
-  /* ---------- Activities ---------- */
-  .act-item{ border-left: 2px solid var(--teal); padding-left: 20px; }
-  .act-item .role{ font-family: var(--mono); font-weight:700; }
-  .act-item .meta{ color: var(--muted); font-family: var(--mono); font-size:12px; margin-top:4px; }
-  .act-item p{ margin-top: 10px; color: var(--text); font-size:15px; max-width:620px; }
-
-  /* ---------- Contact / footer ---------- */
-  footer{
-    border-top: 1px solid var(--grid); padding: 56px 0 40px;
-  }
-  .contact-grid{
-    display:grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-    background: var(--line); border:1px solid var(--line);
-  }
-  .contact-cell{
-    background: var(--panel); padding: 22px 18px; text-decoration:none; color: var(--text);
-    display:flex; flex-direction:column; gap:6px; transition: background .2s ease;
-  }
-  .contact-cell:hover, .contact-cell:focus-visible{ background: var(--panel-2); }
-  .contact-cell .k{ font-family: var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color: var(--muted); }
-  .contact-cell .v{ font-family: var(--mono); font-size:13px; color: var(--teal); word-break: break-word; }
-  @media (max-width: 780px){ .contact-grid{ grid-template-columns: repeat(2, 1fr); } }
-
-  .foot-note{ margin-top: 28px; font-family: var(--mono); font-size:11px; color: var(--muted); text-align:center; }
-
-  :focus-visible{ outline: 2px solid var(--teal); outline-offset: 2px; }
-
-  /* ---------- Motion ---------- */
-  .reveal{
-    opacity: 0; transform: translateY(28px);
-    transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
-  }
-  .reveal.is-visible{ opacity: 1; transform: translateY(0); }
-
-  .proj{ transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
-  .proj:hover{ transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 12px 28px -18px rgba(94,234,212,0.35); }
-
-  .chip{ transition: background .25s ease, color .25s ease, border-color .25s ease; }
-  .chip:hover{ background: var(--teal); color: var(--bg); border-color: var(--teal); }
-
-  .bom-table tr td{ transition: background .25s ease; }
-
-  .stat-row{ transition: padding-left .25s ease; }
-  .stat-row:hover{ padding-left: 6px; }
-  .stat-row:hover .k{ color: var(--teal); transition: color .25s ease; }
-
-  .contact-cell{ transition: background .3s ease, transform .3s ease; }
-  .contact-cell:hover{ transform: translateY(-3px); }
-
-  .tb-cell{ transition: background .3s ease; }
-  .tb-cell:hover{ background: var(--panel-2); }
-
-  .nav-mark::before{ animation: pulse 2.4s ease-in-out infinite; }
-  @keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:.35; } }
-
-  @media (prefers-reduced-motion: reduce){
-    .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
-    .proj, .chip, .contact-cell, .tb-cell, .nav-mark::before{ transition:none !important; animation:none !important; }
+  @media (max-width: 900px) {
+    .telemetry-bar { grid-template-columns: 1fr; }
+    .telemetry-item:not(:first-child) { display: none; }
+    .nav-menu { display: none; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-main { padding: 36px 24px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-copy { padding: 32px 24px; }
+    .project-item { grid-template-columns: 1fr; padding: 24px; gap: 16px; }
+    .project-side { align-items: flex-start; }
+    .split-columns { grid-template-columns: 1fr; }
+    .border-r { border-right: none; border-bottom: 1px solid var(--border); }
+    .edu-cell { padding: 20px 24px; }
+    .hobby-container { padding: 20px 24px; }
+    .footer-matrix { grid-template-columns: 1fr 1fr; }
+    .footer-slot { border-bottom: 1px solid var(--border); }
   }
 </style>
 </head>
 <body>
 
-<header class="nav">
-  <div class="nav-inner">
-    <div class="nav-mark">THEJAS KM</div>
-    <nav class="nav-links">
-      <a href="#about"><span>01</span>About</a>
-      <a href="#education"><span>02</span>Education</a>
-      <a href="#bom"><span>03</span>Skills</a>
-      <a href="#projects"><span>04</span>Projects</a>
-      <a href="#internship"><span>05</span>Internship</a>
-      <a href="#training"><span>06</span>Training</a>
-      <a href="#hobbies"><span>07</span>Hobbies</a>
-      <a href="#contact"><span>08</span>Contact</a>
-    </nav>
-  </div>
-</header>
+<div class="frame">
 
-<div class="wrap">
-
-  <section class="hero" style="border-top:none; padding-top:64px;">
-    <div class="status-badge"><span class="status-dot"></span>Open to internships</div>
-
-    <div class="trace-wrap">
-      <svg class="trace" viewBox="0 0 900 90" preserveAspectRatio="none" aria-hidden="true">
-        <path id="tracePath" class="trace-path" d="M0,45 L120,45 L150,15 L260,15 L290,45 L420,45 L450,75 L560,75 L590,45 L720,45 L750,20 L900,20"></path>
-        <circle class="trace-node" cx="150" cy="15" r="5"></circle>
-        <circle class="trace-node trace-node2" cx="450" cy="75" r="5"></circle>
-        <circle class="trace-node" cx="750" cy="20" r="5"></circle>
-
-        <!-- Rover: drives the trace before the details power on -->
-        <g id="rover">
-          <rect x="-15" y="-9" width="30" height="12" rx="2" fill="var(--panel)" stroke="var(--amber)" stroke-width="2"></rect>
-          <rect x="-5" y="-15" width="10" height="7" rx="1" fill="var(--panel)" stroke="var(--teal)" stroke-width="1.5"></rect>
-          <circle cx="0" cy="-17" r="2.5" fill="var(--teal)"></circle>
-          <circle class="wheel" cx="-9" cy="5" r="4.5" fill="var(--bg)" stroke="var(--teal)" stroke-width="2"></circle>
-          <circle class="wheel" cx="9" cy="5" r="4.5" fill="var(--bg)" stroke="var(--teal)" stroke-width="2"></circle>
-        </g>
-      </svg>
+  <div class="telemetry-bar border-b font-mono">
+    <div class="telemetry-item border-r">
+      <span class="pulse-dot"></span> STATUS: OPEN TO INTERNSHIPS
     </div>
+    <div class="telemetry-item border-r">
+      LOC: BENGALURU, INDIA
+    </div>
+    <div class="telemetry-item">
+      NODE: MITE / B.E ECE
+    </div>
+  </div>
 
-    <div class="hero-content" id="heroContent">
-      <h1 class="title">THEJAS KM<br><span class="accent">builds things that move,<br>sense, and decide.</span></h1>
-      <p class="subtitle">Building intelligent machines that can see, think, and act.</p>
+  <header class="nav border-b">
+    <div class="brand-slot" id="brandSlot">
+      <div class="brand-spec font-mono">
+        <span class="spec-box">PORTFOLIO</span>
+        <span class="spec-text">ROBOTICS &amp; EMBEDDED</span>
+      </div>
+      <div class="brand-name font-mono">THEJAS KM</div>
+    </div>
+    <nav class="nav-menu font-mono">
+      <a href="#about">01. ABOUT</a>
+      <a href="#projects">02. PROJECTS</a>
+      <a href="#bom">03. SKILLS</a>
+      <a href="#education">04. EDUCATION</a>
+      <a href="#languages">05. LANGUAGES</a>
+      <a href="#training">06. CREDENTIALS</a>
+      <a href="#contact">07. CONTACT</a>
+    </nav>
+  </header>
 
-      <div class="title-block">
-        <div class="tb-cell"><div class="tb-label">Institution</div><div class="tb-value">MITE, Mangalore</div></div>
-        <div class="tb-cell"><div class="tb-label">Program</div><div class="tb-value">B.E ECE</div></div>
-        <div class="tb-cell"><div class="tb-label">Timeline</div><div class="tb-value">Oct 2023 – Present</div></div>
-        <div class="tb-cell"><div class="tb-label">Location</div><div class="tb-value">Bengaluru, India</div></div>
-        <div class="tb-cell"><div class="tb-label">Email</div><div class="tb-value"><a href="mailto:thejas472@gmail.com">thejas472@gmail.com</a></div></div>
-        <div class="tb-cell"><div class="tb-label">Mobile</div><div class="tb-value">+91 99456 71298</div></div>
-        <div class="tb-cell"><div class="tb-label">GitHub</div><div class="tb-value"><a href="https://github.com/thejas472" target="_blank" rel="noopener">github.com/thejas472</a></div></div>
-        <div class="tb-cell"><div class="tb-label">LinkedIn</div><div class="tb-value"><a href="https://www.linkedin.com/in/thejas-km-60ba602a3/" target="_blank" rel="noopener">/in/thejas-km-60ba602a3</a></div></div>
+  <section class="hero-grid border-b">
+    <div class="hero-main border-r">
+      <span class="hero-kicker font-mono">ROBOTICS &amp; EMBEDDED SYSTEMS</span>
+      <div class="hero-title-group">
+        <h1 class="hero-name" id="heroName">THEJAS KM</h1>
+        <div class="hero-tagline">
+          BUILDS THINGS THAT MOVE,<br>
+          <span class="highlight">SENSE, AND DECIDE.</span>
+        </div>
+      </div>
+      <p class="hero-lead">
+        Building intelligent machines that can see, think, and act.
+      </p>
+    </div>
+    <div class="hero-meta-panel font-mono">
+      <div class="meta-grid">
+        <div class="meta-cell">
+          <div class="meta-label">Institution</div>
+          <div class="meta-value">MITE, Mangalore</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Program</div>
+          <div class="meta-value">B.E ECE</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Timeline</div>
+          <div class="meta-value">Oct 2023 – Present</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Location</div>
+          <div class="meta-value">Bengaluru, India</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Email</div>
+          <div class="meta-value"><a href="mailto:thejas472@gmail.com">thejas472@gmail.com</a></div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Mobile</div>
+          <div class="meta-value">+91 99456 71298</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">GitHub</div>
+          <div class="meta-value"><a href="https://github.com/thejas472" target="_blank" rel="noopener">thejas472</a></div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">LinkedIn</div>
+          <div class="meta-value"><a href="https://www.linkedin.com/in/thejas-km-60ba602a3/" target="_blank" rel="noopener">/in/thejas-km</a></div>
+        </div>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-action primary">VIEW PROJECTS ↓</a>
+        <a href="mailto:thejas472@gmail.com" class="btn-action secondary">GET IN TOUCH</a>
       </div>
     </div>
   </section>
 
-  <section id="about" class="reveal">
-    <div class="sec-head"><span class="sec-num">01</span><span class="sec-title">About</span><span class="sec-rule"></span></div>
+  <section id="about" class="border-b">
+    <div class="section-label-bar border-b font-mono">
+      <span>SYSTEM OVERVIEW // PROFILE</span>
+      <span class="num">[SEC // 01]</span>
+    </div>
     <div class="about-grid">
-      <div class="about-copy">
+      <div class="about-copy border-r">
         <p>Electronics and Communication Engineering student with a strong interest in Robotics, Autonomous Systems, and Machine Learning.</p>
-        <p>Final year ECE student, currently working on a final year project focused on autonomous mobile manipulation.</p>
+        <p>Final year ECE student, currently working on a capstone project focused on autonomous mobile manipulation.</p>
         <p>Passionate about developing intelligent robotic solutions through the integration of embedded systems, perception, and AI-driven decision-making.</p>
         <p>Continuously exploring emerging technologies through hands-on projects in ROS2, embedded systems, and autonomous robotics.</p>
       </div>
-      <div class="stat-panel">
+      <div class="stat-panel font-mono">
         <div class="stat-row"><span class="k">Focus</span><span class="v">Robotics · Embedded · IoT</span></div>
         <div class="stat-row"><span class="k">Core stack</span><span class="v">ROS2 / Nav2 / MoveIt2</span></div>
+        <div class="stat-row"><span class="k">Protocols</span><span class="v">UART · SPI · I2C · CAN</span></div>
         <div class="stat-row"><span class="k">Languages</span><span class="v">C, C++, Python, ASM</span></div>
-        <div class="stat-row"><span class="k">Boards</span><span class="v">ESP32, STM32, Pi, Arduino</span></div>
+        <div class="stat-row"><span class="k">Boards</span><span class="v">ESP32, STM32, Pi 5, Arduino</span></div>
         <div class="stat-row"><span class="k">Status</span><span class="v">Open to internships</span></div>
       </div>
     </div>
   </section>
 
-  <section id="education" class="reveal">
-    <div class="sec-head"><span class="sec-num">02</span><span class="sec-title">Education</span><span class="sec-rule"></span></div>
-    <div class="edu-list">
+  <section id="projects" class="border-b">
+    <div class="section-label-bar border-b font-mono">
+      <span>ENGINEERING PROJECTS</span>
+      <span class="num">[SEC // 02]</span>
+    </div>
 
-      <div class="edu-item reveal">
-        <div class="edu-head">
-          <div class="edu-school">Mangalore Institute of Technology and Engineering, Mangalore, India</div>
-          <div class="edu-meta">Oct 2023 – Oct 2027</div>
+    <div class="project-item border-b">
+      <div>
+        <div class="project-badge-row font-mono">
+          <span class="badge-capstone">Capstone Project</span>
+          <span class="badge-status">• In Progress</span>
         </div>
-        <div class="edu-degree">Bachelor of Engineering, Electronics and Communications Engineering</div>
-        <div class="edu-grade">Grade: Undergraduate</div>
-        <div class="edu-activity">Self-study: Robotics</div>
-      </div>
-
-      <div class="edu-item reveal">
-        <div class="edu-head">
-          <div class="edu-school">Geetanjali Olympiad School — Bangalore</div>
-          <div class="edu-meta">Jul 2020 – Apr 2023</div>
+        <h2 class="project-heading">Multi-Modal Autonomous Mobile Manipulator (ROS2)</h2>
+        <p class="project-summary">
+          A mobile robotic platform paired with a 4-DOF arm, built for autonomous pick-and-place. LiDAR-based SLAM and Nav2 handle navigation, MoveIt2 handles motion planning, and YOLO handles object detection — with Nano LLM-based task sequencing layered on top for decision-making.
+        </p>
+        <div class="project-tags font-mono">
+          <span class="tag-mono">ROS2</span>
+          <span class="tag-mono">Nav2</span>
+          <span class="tag-mono">MoveIt2</span>
+          <span class="tag-mono">Gazebo</span>
+          <span class="tag-mono">YOLO</span>
+          <span class="tag-mono">LiDAR</span>
+          <span class="tag-mono">ESP32</span>
+          <span class="tag-mono">Raspberry Pi 5</span>
         </div>
-        <div class="edu-degree">PCMB</div>
-        <div class="edu-grade">Grade: Senior High School</div>
-        <div class="edu-activity">Activities: Football &amp; Badminton</div>
       </div>
+      <div class="project-side font-mono">
+        <span class="badge-status">INTEGRATED ROBOTICS</span>
+      </div>
+    </div>
 
-      <div class="edu-item reveal">
-        <div class="edu-head">
-          <div class="edu-school">Sri Chaitanya Techno School — Bangalore</div>
-          <div class="edu-meta">Jun 2018 – Mar 2021</div>
+    <div class="project-item border-b">
+      <div>
+        <div class="project-badge-row font-mono">
+          <span class="badge-status">• Manipulation System</span>
         </div>
-        <div class="edu-grade">Grade: Secondary School</div>
-        <div class="edu-activity">Activities: Table Tennis</div>
-      </div>
-
-      <div class="edu-item reveal">
-        <div class="edu-head">
-          <div class="edu-school">Padma Seshadri Bala Bhavan Sr. Sec. School — Chennai</div>
-          <div class="edu-meta">Dec 2011 – Dec 2018</div>
+        <h2 class="project-heading">4-DOF Robotic Arm with MoveIt2</h2>
+        <p class="project-summary">
+          Motion planning and trajectory execution for a 3D-printed 4-DOF robotic arm, with ESP32 handling actuation and control.
+        </p>
+        <div class="project-tags font-mono">
+          <span class="tag-mono">ROS2</span>
+          <span class="tag-mono">MoveIt2</span>
+          <span class="tag-mono">ESP32</span>
+          <span class="tag-mono">URDF</span>
         </div>
-        <div class="edu-grade">Grade: Primary and Middle Stage</div>
-        <div class="edu-activity">Activities: Football Team, Cricket Team, Athletics, Electronics Club.<br>Won multiple Inter-School and Intra-School Football and Cricket competitions, represented the school at the CBSE National-Level Cluster Competition, competed in the PSBB Inter-School Athletic Meet in Discus Throw, Long Jump, and High Jump, and won school-level Electronics competitions — building teamwork, leadership, and problem-solving skills.</div>
       </div>
+      <div class="project-side font-mono">
+        <a class="repo-link" href="https://github.com/thejas472/ros2-moveit-arm" target="_blank" rel="noopener">VIEW REPOSITORY ↗</a>
+      </div>
+    </div>
 
+    <div class="project-item border-b">
+      <div>
+        <div class="project-badge-row font-mono">
+          <span class="badge-status">• Edge Machine Learning</span>
+        </div>
+        <h2 class="project-heading">TinyML-Based Temperature Prediction System</h2>
+        <p class="project-summary">
+          Developed a TinyML temperature prediction system using ESP32 and DHT11. Trained a regression model with TensorFlow and applied INT8 quantization for efficient on-device inference using TensorFlow Lite Micro.
+        </p>
+        <div class="project-tags font-mono">
+          <span class="tag-mono">ESP32</span>
+          <span class="tag-mono">DHT11</span>
+          <span class="tag-mono">TensorFlow</span>
+          <span class="tag-mono">TensorFlow Lite Micro</span>
+          <span class="tag-mono">INT8 Quantization</span>
+          <span class="tag-mono">ThingSpeak</span>
+        </div>
+      </div>
+      <div class="project-side font-mono">
+        <a class="repo-link" href="https://github.com/thejas472/TinyML-Based-Temperature-Prediction-on-ESP32-using-TensorFlow-Lite" target="_blank" rel="noopener">VIEW REPOSITORY ↗</a>
+      </div>
+    </div>
+
+    <div class="project-item border-b">
+      <div>
+        <div class="project-badge-row font-mono">
+          <span class="badge-status">• Mobile Base</span>
+        </div>
+        <h2 class="project-heading">ROS2 Differential Drive Robot (micro-ROS)</h2>
+        <p class="project-summary">
+          A mobile robot built on ESP32 and micro-ROS for direct integration with ROS2 — motor control, velocity command handling, and real-time comms between embedded hardware and ROS2 nodes.
+        </p>
+        <div class="project-tags font-mono">
+          <span class="tag-mono">ROS2</span>
+          <span class="tag-mono">micro-ROS</span>
+          <span class="tag-mono">ESP32</span>
+          <span class="tag-mono">PWM</span>
+        </div>
+      </div>
+      <div class="project-side font-mono">
+        <a class="repo-link" href="https://github.com/thejas472/ESP32-Micro-Ros-Ros2-Differential-Drive" target="_blank" rel="noopener">VIEW REPOSITORY ↗</a>
+      </div>
+    </div>
+
+    <div class="project-item">
+      <div>
+        <div class="project-badge-row font-mono">
+          <span class="badge-status">• Embedded Control</span>
+        </div>
+        <h2 class="project-heading">Automatic Solar Tracking System</h2>
+        <p class="project-summary">
+          LDR sensors and a servo motor keep a solar panel aligned with the strongest light source, improving harvest through dynamic positioning.
+        </p>
+        <div class="project-tags font-mono">
+          <span class="tag-mono">LDR Sensors</span>
+          <span class="tag-mono">Servo Motor</span>
+        </div>
+      </div>
+      <div class="project-side font-mono">
+        <span class="badge-status">HARDWARE SYSTEM</span>
+      </div>
     </div>
   </section>
 
-  <section id="bom" class="reveal">
-    <div class="sec-head"><span class="sec-num">03</span><span class="sec-title">Bill of Materials — Skills</span><span class="sec-rule"></span></div>
-    <div class="scroll-x">
-    <table class="bom-table">
+  <section id="bom" class="border-b">
+    <div class="section-label-bar border-b font-mono">
+      <span>BILL OF MATERIALS — SKILLS</span>
+      <span class="num">[SEC // 03]</span>
+    </div>
+    <table class="bom-table font-mono">
       <thead>
-        <tr><th>Ref</th><th>Qty</th><th>Category</th><th>Description</th></tr>
+        <tr>
+          <th>Ref</th>
+          <th>Qty</th>
+          <th>Category</th>
+          <th>Description</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td class="bom-ref">U1</td><td class="bom-qty">05</td><td class="bom-desc">Languages</td><td class="bom-desc">ASM, Embedded C, C, C++, Python, MATLAB</td></tr>
-        <tr><td class="bom-ref">U2</td><td class="bom-qty">07</td><td class="bom-desc">Frameworks</td><td class="bom-desc">ROS2, Nav2, MoveIt2, Gazebo, RViz2, OpenCV, TensorFlow Lite (TinyML)</td></tr>
-        <tr><td class="bom-ref">U3</td><td class="bom-qty">05</td><td class="bom-desc">Hardware</td><td class="bom-desc">Raspberry Pi, ESP32, STM32, Arduino, LiDAR</td></tr>
-        <tr><td class="bom-ref">U4</td><td class="bom-qty">05</td><td class="bom-desc">Tools</td><td class="bom-desc">Git, GitHub, VS Code, Arduino IDE, Altium PCB Design</td></tr>
-        <tr><td class="bom-ref">U5</td><td class="bom-qty">03</td><td class="bom-desc">Soft skills</td><td class="bom-desc">Leadership, Event management, Time management</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </section>
-
-  <section id="projects" class="reveal">
-    <div class="sec-head"><span class="sec-num">04</span><span class="sec-title">Projects</span><span class="sec-rule"></span></div>
-    <div class="proj-list">
-
-      <div class="proj reveal">
-        <div class="proj-head">
-          <div class="proj-name">Multi-Modal Autonomous Mobile Manipulator (ROS2)</div>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span class="proj-status"><span class="proj-status-dot"></span>In Progress</span>
-            <div class="proj-tag">Final Year Project</div>
-          </div>
-        </div>
-        <p class="proj-desc">A mobile robotic platform paired with a 4-DOF arm, built for autonomous pick-and-place. LiDAR-based SLAM and Nav2 handle navigation, MoveIt2 handles motion planning, and YOLO handles object detection — with Nano LLM-based task sequencing layered on top for decision-making.</p>
-        <div class="proj-stack">
-          <span class="chip">ROS2</span><span class="chip">Nav2</span><span class="chip">MoveIt2</span><span class="chip">Gazebo</span><span class="chip">YOLO</span><span class="chip">LiDAR</span><span class="chip">ESP32</span><span class="chip">Raspberry Pi</span>
-        </div>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head">
-          <div class="proj-name">4-DOF Robotic Arm with MoveIt2</div>
-        </div>
-        <p class="proj-desc">Motion planning and trajectory execution for a 3D-printed 4-DOF robotic arm, with ESP32 handling actuation and control.</p>
-        <div class="proj-stack">
-          <span class="chip">ROS2</span><span class="chip">MoveIt2</span><span class="chip">ESP32</span><span class="chip">URDF</span><span class="chip">3D Printing</span>
-        </div>
-        <a class="proj-link" href="https://github.com/thejas472/ros2-moveit-arm" target="_blank" rel="noopener">→ View repository — github.com/thejas472/ros2-moveit-arm</a>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head">
-          <div class="proj-name">TinyML-Based Temperature Prediction System</div>
-        </div>
-        <p class="proj-desc">An IoT temperature monitoring system on ESP32 and DHT11 sensors, with an on-device TensorFlow Lite model predicting future readings, and MATLAB ThingSpeak handling cloud logging and visualization.</p>
-        <div class="proj-stack">
-          <span class="chip">ESP32</span><span class="chip">DHT11</span><span class="chip">TensorFlow Lite</span><span class="chip">ThingSpeak</span>
-        </div>
-        <a class="proj-link" href="https://github.com/thejas472/TinyML-Based-Temperature-Prediction-on-ESP32-using-TensorFlow-Lite" target="_blank" rel="noopener">→ View repository — TinyML-Based-Temperature-Prediction-on-ESP32</a>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head">
-          <div class="proj-name">ROS2 Differential Drive Robot (micro-ROS)</div>
-        </div>
-        <p class="proj-desc">A mobile robot built on ESP32 and micro-ROS for direct integration with ROS2 — motor control, velocity command handling, and real-time comms between embedded hardware and ROS2 nodes.</p>
-        <div class="proj-stack">
-          <span class="chip">ROS2</span><span class="chip">micro-ROS</span><span class="chip">ESP32</span><span class="chip">PWM</span>
-        </div>
-        <a class="proj-link" href="https://github.com/thejas472/ESP32-Micro-Ros-Ros2-Differential-Drive" target="_blank" rel="noopener">→ View repository — ESP32-Micro-Ros-Ros2-Differential-Drive</a>
-      </div>
-
-      <div class="proj reveal">
-        <div class="proj-head">
-          <div class="proj-name">Automatic Solar Tracking System</div>
-        </div>
-        <p class="proj-desc">LDR sensors and a servo motor keep a solar panel aligned with the strongest light source, improving harvest through dynamic positioning.</p>
-        <div class="proj-stack">
-          <span class="chip">LDR Sensors</span><span class="chip">Servo Motor</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <section id="internship" class="reveal">
-    <div class="sec-head"><span class="sec-num">05</span><span class="sec-title">Internship</span><span class="sec-rule"></span></div>
-    <div class="act-item reveal">
-      <div class="role">VSD Squadron Mini Research Internship — Remote</div>
-      <div class="meta">2024</div>
-      <p>A 4-week embedded systems and Linux development program.</p>
-    </div>
-  </section>
-
-  <section id="training" class="reveal">
-    <div class="sec-head"><span class="sec-num">06</span><span class="sec-title">Training Log</span><span class="sec-rule"></span></div>
-    <table class="log-table">
-      <tbody>
-        <tr><td class="log-idx">001</td><td>Linux For Robotics — The Construct</td></tr>
-        <tr><td class="log-idx">002</td><td>Altium Designer PCB Basic Design Course</td></tr>
-        <tr><td class="log-idx">003</td><td>MATLAB Onramp</td></tr>
-        <tr><td class="log-idx">004</td><td>ESP32 for IoT — Build Real World Projects</td></tr>
-        <tr><td class="log-idx">005</td><td>Electricity &amp; Electronics for Robotics: Learn by Building — Ian Juby</td></tr>
-        <tr><td class="log-idx">006</td><td>NPTEL: Data Science for Engineers</td></tr>
+        <tr>
+          <td class="bom-ref">U1</td>
+          <td class="bom-qty">05</td>
+          <td class="bom-cat">Languages</td>
+          <td class="bom-desc">ASM, Embedded C, C, C++, Python, MATLAB</td>
+        </tr>
+        <tr>
+          <td class="bom-ref">U2</td>
+          <td class="bom-qty">07</td>
+          <td class="bom-cat">Frameworks</td>
+          <td class="bom-desc">ROS2, Nav2, MoveIt2, Gazebo, RViz2, OpenCV, TensorFlow Lite (TinyML)</td>
+        </tr>
+        <tr>
+          <td class="bom-ref">U3</td>
+          <td class="bom-qty">06</td>
+          <td class="bom-cat">Hardware &amp; IoT</td>
+          <td class="bom-desc">Embedded Systems, IoT, Raspberry Pi 5, ESP32, STM32, Arduino, LiDAR</td>
+        </tr>
+        <tr>
+          <td class="bom-ref">U4</td>
+          <td class="bom-qty">04</td>
+          <td class="bom-cat">Protocols</td>
+          <td class="bom-desc">UART, SPI, I2C, CAN</td>
+        </tr>
+        <tr>
+          <td class="bom-ref">U5</td>
+          <td class="bom-qty">05</td>
+          <td class="bom-cat">Tools</td>
+          <td class="bom-desc">KiCad, Git, GitHub, VS Code, Arduino IDE</td>
+        </tr>
+        <tr>
+          <td class="bom-ref">U6</td>
+          <td class="bom-qty">03</td>
+          <td class="bom-cat">Soft skills</td>
+          <td class="bom-desc">Leadership, Event management, Time management</td>
+        </tr>
       </tbody>
     </table>
   </section>
 
-  <section id="hobbies" class="reveal">
-    <div class="sec-head"><span class="sec-num">07</span><span class="sec-title">Hobbies</span><span class="sec-rule"></span></div>
-    <div class="hobby-list">
-      <span class="chip hobby-chip">Building Robotics Projects</span>
-      <span class="chip hobby-chip">Reading Technical Books</span>
-      <span class="chip hobby-chip">Listening to Technical Webinars and Online Seminars</span>
+  <section id="education" class="border-b">
+    <div class="section-label-bar border-b font-mono">
+      <span>ACADEMIC BACKGROUND // EDUCATION</span>
+      <span class="num">[SEC // 04]</span>
+    </div>
+
+    <div class="edu-cell">
+      <div class="edu-period font-mono">OCT 2023 – OCT 2027</div>
+      <div class="edu-school">Mangalore Institute of Technology and Engineering, Mangalore, India</div>
+      <div class="edu-degree">Bachelor of Engineering, Electronics and Communications Engineering</div>
+      <div class="edu-grade font-mono">Grade: Undergraduate</div>
+      <div class="edu-activity">Self-study: Robotics</div>
+    </div>
+
+    <div class="edu-cell">
+      <div class="edu-period font-mono">JUL 2020 – APR 2023</div>
+      <div class="edu-school">Geetanjali Olympiad School — Bangalore</div>
+      <div class="edu-degree">PCMB</div>
+      <div class="edu-grade font-mono">Grade: Senior High School</div>
+      <div class="edu-activity">Activities: Football &amp; Badminton</div>
+    </div>
+
+    <div class="edu-cell">
+      <div class="edu-period font-mono">JUN 2018 – MAR 2021</div>
+      <div class="edu-school">Sri Chaitanya Techno School — Bangalore</div>
+      <div class="edu-degree">Secondary School</div>
+      <div class="edu-grade font-mono">Grade: Secondary School</div>
+      <div class="edu-activity">Activities: Table Tennis</div>
+    </div>
+
+    <div class="edu-cell">
+      <div class="edu-period font-mono">DEC 2011 – DEC 2018</div>
+      <div class="edu-school">Padma Seshadri Bala Bhavan Sr. Sec. School — Chennai</div>
+      <div class="edu-degree">Primary and Middle Stage</div>
+      <div class="edu-grade font-mono">Grade: Primary and Middle Stage</div>
+      <div class="edu-activity">
+        Activities: Football Team, Cricket Team, Athletics, Electronics Club.<br>
+        Won multiple Inter-School and Intra-School Football and Cricket competitions, represented the school at the CBSE National-Level Cluster Competition, competed in the PSBB Inter-School Athletic Meet in Discus Throw, Long Jump, and High Jump, and won school-level Electronics competitions — building teamwork, leadership, and problem-solving skills.
+      </div>
     </div>
   </section>
+
+  <section id="languages" class="border-b">
+    <div class="section-label-bar border-b font-mono">
+      <span>COMMUNICATION LANGUAGES</span>
+      <span class="num">[SEC // 05]</span>
+    </div>
+    <div class="lang-grid font-mono">
+      <div class="lang-row">
+        <div class="lang-name">English</div>
+        <div class="lang-prof">Full professional proficiency</div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-name">Kannada</div>
+        <div class="lang-prof">Professional working proficiency</div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-name">Marathi</div>
+        <div class="lang-prof">Professional working proficiency</div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-name">Tamil</div>
+        <div class="lang-prof">Full professional proficiency</div>
+      </div>
+      <div class="lang-row">
+        <div class="lang-name">Hindi</div>
+        <div class="lang-prof">Full professional proficiency</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="split-columns border-b" id="training">
+
+    <div class="border-r">
+      <div class="section-label-bar border-b font-mono">
+        <span>TRAINING LOG &amp; CERTIFICATIONS</span>
+        <span class="num">[SEC // 06]</span>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-meta">
+          <div class="title">Data Science for Engineers</div>
+          <div class="issuer font-mono">006 // NPTEL</div>
+        </div>
+        <a class="cert-verify font-mono" href="https://nptel.ac.in/noc/E_Certificate/NOC26CS65S36210012103171893" target="_blank" rel="noopener">VIEW CREDENTIALS ↗</a>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-meta">
+          <div class="title">Electricity &amp; Electronics for Robotics: Learn by Building</div>
+          <div class="issuer font-mono">005 // Ian Juby (Udemy)</div>
+        </div>
+        <a class="cert-verify font-mono" href="https://udemy-certificate.s3.amazonaws.com/image/UC-27ddf0bf-6e98-4049-92e4-d6b5f3a99767.jpg" target="_blank" rel="noopener">VIEW CREDENTIALS ↗</a>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-meta">
+          <div class="title">MATLAB Onramp</div>
+          <div class="issuer font-mono">003 // MathWorks Training Services</div>
+        </div>
+        <a class="cert-verify font-mono" href="https://matlabacademy.mathworks.com/progress/share/certificate.html?id=11d3e9e5-4f42-47af-b1c7-6a17a107fe98" target="_blank" rel="noopener">VIEW CREDENTIALS ↗</a>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-meta">
+          <div class="title">ESP32 for IoT — Build Real World Projects</div>
+          <div class="issuer font-mono">004 // Udemy</div>
+        </div>
+        <a class="cert-verify font-mono" href="https://ude.my/UC-53faf306-baa6-4a6b-a62e-2e71d5bd7b11" target="_blank" rel="noopener">VIEW CREDENTIALS ↗</a>
+      </div>
+
+      <div class="cert-row">
+        <div class="cert-meta">
+          <div class="title">Linux For Robotics</div>
+          <div class="issuer font-mono">001 // The Construct</div>
+        </div>
+        <span class="badge-status font-mono">LOGGED</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label-bar border-b font-mono" id="internship">
+        <span>INTERNSHIP EXPERIENCE</span>
+        <span class="num">[EXP // 01]</span>
+      </div>
+      <div class="edu-cell">
+        <div class="edu-period font-mono">2024 // REMOTE</div>
+        <div class="edu-school">VSD Squadron Mini Research Internship</div>
+        <div class="edu-activity">A 4-week embedded systems and Linux development program.</div>
+      </div>
+
+      <div class="section-label-bar border-b border-t font-mono" id="hobbies">
+        <span>HOBBIES &amp; INTERESTS</span>
+        <span class="num">[INT // 01]</span>
+      </div>
+      <div class="hobby-container font-mono">
+        <span class="tag-mono">Building Robotics Projects</span>
+        <span class="tag-mono">Playing Football</span>
+        <span class="tag-mono">Table Tennis</span>
+        <span class="tag-mono">Chess</span>
+        <span class="tag-mono">Reading Technical Books</span>
+        <span class="tag-mono">Listening to Technical Webinars and Online Seminars</span>
+      </div>
+    </div>
+
+  </div>
+
+  <footer id="contact" class="border-t">
+    <div class="section-label-bar border-b font-mono">
+      <span>CONTACT DIRECTORY</span>
+      <span class="num">[SEC // 07]</span>
+    </div>
+    <div class="footer-matrix font-mono">
+      <a class="footer-slot" href="mailto:thejas472@gmail.com">
+        <div class="label">EMAIL</div>
+        <div class="val">thejas472@gmail.com</div>
+      </a>
+      <a class="footer-slot" href="tel:+919945671298">
+        <div class="label">MOBILE</div>
+        <div class="val">+91 99456 71298</div>
+      </a>
+      <a class="footer-slot" href="https://github.com/thejas472" target="_blank" rel="noopener">
+        <div class="label">GITHUB</div>
+        <div class="val">github.com/thejas472</div>
+      </a>
+      <a class="footer-slot" href="https://www.linkedin.com/in/thejas-km-60ba602a3/" target="_blank" rel="noopener">
+        <div class="label">LINKEDIN</div>
+        <div class="val">/in/thejas-km-60ba602a3</div>
+      </a>
+    </div>
+  </footer>
 
 </div>
 
-<footer id="contact">
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-num">08</span><span class="sec-title">Contact</span><span class="sec-rule"></span></div>
-    <div class="contact-grid reveal">
-      <a class="contact-cell" href="mailto:thejas472@gmail.com">
-        <span class="k">Email</span><span class="v">thejas472@gmail.com</span>
-      </a>
-      <a class="contact-cell" href="tel:+919945671298">
-        <span class="k">Mobile</span><span class="v">+91 99456 71298</span>
-      </a>
-      <a class="contact-cell" href="https://github.com/thejas472" target="_blank" rel="noopener">
-        <span class="k">GitHub</span><span class="v">github.com/thejas472</span>
-      </a>
-      <a class="contact-cell" href="https://www.linkedin.com/in/thejas-km-60ba602a3/" target="_blank" rel="noopener">
-        <span class="k">LinkedIn</span><span class="v">/in/thejas-km-60ba602a3</span>
-      </a>
-    </div>
-    <div class="foot-note">BENGALURU, INDIA</div>
-  </div>
-</footer>
-
 <script>
   (function(){
-    var items = document.querySelectorAll('.reveal');
-    if(!('IntersectionObserver' in window)){
-      items.forEach(function(el){ el.classList.add('is-visible'); });
-      return;
-    }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('is-visible');
-          io.unobserve(entry.target);
+    const heroName = document.getElementById('heroName');
+    const brandSlot = document.getElementById('brandSlot');
+    if (!heroName || !brandSlot) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          brandSlot.classList.add('scrolled');
+        } else {
+          brandSlot.classList.remove('scrolled');
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    items.forEach(function(el, i){
-      el.style.transitionDelay = (Math.min(i % 5, 4) * 60) + 'ms';
-      io.observe(el);
+    }, {
+      root: null,
+      threshold: 0,
+      rootMargin: '-56px 0px 0px 0px'
     });
-  })();
 
-  /* ---- Rover intro: drive along the trace, then power on the details ---- */
-  (function(){
-    var path = document.getElementById('tracePath');
-    var rover = document.getElementById('rover');
-    var heroContent = document.getElementById('heroContent');
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if(!path || !rover || !heroContent){ return; }
-
-    if(reduceMotion){
-      heroContent.classList.add('is-visible');
-      rover.style.opacity = '0';
-      return;
-    }
-
-    var len = path.getTotalLength();
-    var duration = 2200; // ms
-    var start = null;
-
-    function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
-
-    function frame(ts){
-      if(start === null) start = ts;
-      var elapsed = ts - start;
-      var t = Math.min(elapsed / duration, 1);
-      var eased = easeOutCubic(t);
-      var dist = eased * len;
-
-      var pt = path.getPointAtLength(dist);
-      var aheadDist = Math.min(dist + 4, len);
-      var ptAhead = path.getPointAtLength(aheadDist);
-      var angle = Math.atan2(ptAhead.y - pt.y, ptAhead.x - pt.x) * (180 / Math.PI);
-
-      rover.setAttribute('transform', 'translate(' + pt.x + ',' + pt.y + ') rotate(' + angle + ')');
-
-      if(t < 1){
-        window.requestAnimationFrame(frame);
-      } else {
-        rover.classList.add('rover-arrived');
-        heroContent.classList.add('is-visible');
-      }
-    }
-
-    rover.classList.add('rover-on');
-    window.requestAnimationFrame(frame);
+    observer.observe(heroName);
   })();
 </script>
 </body>
